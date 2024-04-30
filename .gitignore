@@ -1,0 +1,11 @@
+.env
+node_modules
+*.html
+*.info
+coverage/lcov-report
+temp
+mysql.config.json
+
+index.js
+index.d.ts
+test/*.js
