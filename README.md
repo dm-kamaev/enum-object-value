@@ -1,4 +1,4 @@
-# Super Enum
+# Enum Object
 
 [![Actions Status](https://github.com/dm-kamaev/enum_object/workflows/Build/badge.svg)](https://github.com/dm-kamaev/enum_object/actions) ![Coverage](https://github.com/dm-kamaev/enum_object/blob/master/coverage/badge-statements.svg)
 
