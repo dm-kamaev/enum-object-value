@@ -66,7 +66,7 @@ export default class EnumObject<InputObj extends Record<any, any> = Record<any, 
   }
 
   forEach(handler: (name: EnumNames<InputObj>, value: EnumValues<InputObj>) => void) {
-    const keys = this.options?.order || this.getKeys();
+    const keys = this.options?.order || this.getNames();
     keys.forEach((name) => {
       const value = this.prop[name];
       handler(name, value);
@@ -81,7 +81,7 @@ export default class EnumObject<InputObj extends Record<any, any> = Record<any, 
     return this.prop[name];
   }
 
-  getKeys() {
+  getNames() {
     return Object.keys(this.prop) as Array<EnumNames<InputObj>>;
   }
 
@@ -89,12 +89,12 @@ export default class EnumObject<InputObj extends Record<any, any> = Record<any, 
     return Object.values(this.prop) as Array<EnumValues<InputObj>>;
   }
 
-  *[Symbol.iterator]() {
-    const keys = this.options?.order || this.getKeys();
+  *[Symbol.iterator](): Generator<[keyof InputObj, InputObj[keyof InputObj]], void, unknown> {
+    const keys = this.options?.order || this.getNames();
     for (let i = 0, l = keys.length; i < l; i++) {
       const name = keys[i];
       const value = this.prop[name];
-      yield { name, value };
+      yield [name, value];
     }
   }
 }

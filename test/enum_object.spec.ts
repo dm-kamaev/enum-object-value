@@ -1,4 +1,4 @@
-import EnumObject from '..';
+import EnumObject from '../index';
 
 describe('[EnumObject]', () => {
   const userRoleEnum = new EnumObject({
@@ -13,7 +13,7 @@ describe('[EnumObject]', () => {
     expect(userRoleEnum.prop).toBeDefined();
     expect(userRoleEnum.forEach).toBeDefined();
     expect(userRoleEnum.get).toBeDefined();
-    expect(userRoleEnum.getKeys).toBeDefined();
+    expect(userRoleEnum.get).toBeDefined();
     expect(userRoleEnum.getValues).toBeDefined();
   });
 
@@ -45,9 +45,9 @@ describe('[EnumObject]', () => {
     const keys: string[] = [];
     const values: Array<{ value: string; permission: readonly string[] }> = [];
 
-    for (const { name, value } of userRoleEnum) {
+    for (const [name, { value, permission }] of userRoleEnum) {
       keys.push(name);
-      values.push(value);
+      values.push({ value, permission });
     }
 
     expect(keys).toEqual(['ROOT', 'ADMIN', 'EMPLOYEE']);
@@ -58,8 +58,8 @@ describe('[EnumObject]', () => {
     ]);
   });
 
-  it('getKeys', () => {
-    const keys = userRoleEnum.getKeys();
+  it('getNames', () => {
+    const keys = userRoleEnum.getNames();
     expect(keys).toEqual(['ROOT', 'ADMIN', 'EMPLOYEE']);
   });
 
@@ -132,9 +132,9 @@ describe('[EnumObject: change sort]', () => {
     const keys: string[] = [];
     const values: Array<{ value: string; permission: readonly string[] }> = [];
 
-    for (const { name, value } of userRoleEnum) {
+    for (const [name, { value, permission }] of userRoleEnum) {
       keys.push(name);
-      values.push(value);
+      values.push({ value, permission });
     }
 
     expect(keys).toEqual(['EMPLOYEE', 'ADMIN', 'ROOT']);
