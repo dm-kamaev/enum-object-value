@@ -83,22 +83,22 @@ describe('[EnumObject]', () => {
     expect(admin.permission).toEqual(['create', 'remove', 'read']);
   });
 
-  it('createByTemplate', () => {
-    const admin = userRoleEnum.createByTemplate('ADMIN', {
-      value: 'admin',
-      permission: ['create', 'remove', 'read'],
-    });
-    expect(admin.value).toBe('admin');
-    expect(admin.permission).toEqual(['create', 'remove', 'read']);
-  });
+  // it('createByTemplate', () => {
+  //   const admin = userRoleEnum.createByTemplate('ADMIN', {
+  //     value: 'admin',
+  //     permission: ['create', 'remove', 'read', 'someth'],
+  //   });
+  //   expect(admin.value).toBe('admin');
+  //   expect(admin.permission).toEqual(['create', 'remove', 'read']);
+  // });
 
   it('createByGeneralizedTemplate', () => {
     const admin = userRoleEnum.createByGeneralizedTemplate('ADMIN', {
-      value: 'admin',
-      permission: ['create', 'remove', 'read'],
+      value: 'admin1',
+      permission: ['something', 'create', 'remove', 'read'],
     });
-    expect(admin.value).toBe('admin');
-    expect(admin.permission).toEqual(['create', 'remove', 'read']);
+    expect(admin.value).toBe('admin1');
+    expect(admin.permission).toEqual(['something', 'create', 'remove', 'read']);
   });
 });
 

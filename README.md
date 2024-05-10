@@ -36,11 +36,17 @@ const userRoleEnum = new EnumObject({
 
 ### Access to properties and names of enum:
 ```ts
+// Get value
 const admin = userRoleEnum.prop.ADMIN;
 // {
 //    readonly value: "admin";
 //    readonly permission: readonly ["create", "remove", "read"];
 // }
+
+// Similarly with method .get
+const admin = userRoleEnum.get('ADMIN');
+
+// Get name
 const ADMIN = userRoleEnum.name.ADMIN;
 // ADMIN
 ```
@@ -92,9 +98,71 @@ userRoleEnum.getValues();
 // }
 ```
 ### Typings
+You can get type of names and values of enum with utility types: `EnumNames` and `EnumValues`.
+```ts
+import EnumObject, { EnumNames, EnumValues } from 'enum_object';
 
-### Create by template
+const data = {
+  ROOT: { value: 'root', permission: ['create:admin', 'create', 'remove', 'read'] },
+  ADMIN: { value: 'admin', permission: ['create', 'remove', 'read'] },
+  EMPLOYEE: { value: 'employee', permission: ['read'] },
+} as const;
 
-### Examples
+const userRoleEnum = new EnumObject(data);
+
+type UserRoleEnumNames = EnumNames<typeof userRoleEnum>;
+//   "ROOT" | "ADMIN" | "EMPLOYEE"
+type UserRoleEnumValues = EnumValues<typeof userRoleEnum>;
+// {
+//     readonly value: "root";
+//     readonly permission: readonly ["create:admin", "create", "remove", "read"];
+// } |
+// ...
+```
+
+### More examples
+Examples with functions as values:
+```ts
+import EnumObject, { EnumNames, EnumValues, GetEnumValueByName } from 'enum_object';
+
+
+const paymentTypeEnum = new EnumObject({
+  CARD: (number: string, holderName: string, expirationDate: Date) => ({
+    type: paymentTypeEnum.name.CARD,
+    number,
+    holderName,
+    expirationDate,
+  }),
+  GIFT_CERTIFICATE: (number: string) => ({ type: paymentTypeEnum.name.GIFT_CERTIFICATE, number }),
+  PAYPALL: (transactionId: string, transactionAuthCode?: string) => ({
+    type: paymentTypeEnum.name.PAYPALL,
+    transactionId,
+    transactionAuthCode,
+  }),
+} as const);
+
+type PaymentTypeEnumNames = EnumNames<typeof paymentTypeEnum>;
+type PaymentTypeEnumValues = ReturnType<EnumValues<typeof paymentTypeEnum>>;
+
+function showInfo(value: PaymentTypeEnumValues) {
+  if (value.type === 'CARD') {
+    console.log('Card number', value.number);
+  } else if (value.type === 'GIFT_CERTIFICATE') {
+    console.log('Gift number', value.number);
+  } else if (value.type === 'PAYPALL') {
+    console.log('Paypal transaction id', value.transactionId);
+  }
+}
+
+const card = paymentTypeEnum.prop.CARD('234234', 'Peter D', new Date());
+showInfo(card);
+
+function getValue<Name extends PaymentTypeEnumNames>(type: Name): GetEnumValueByName<typeof paymentTypeEnum, Name> {
+  return paymentTypeEnum.prop[type];
+}
+
+const createCard = getValue('CARD');
+const card = createCard('11313', 'Peter D', new Date());
+```
 
 

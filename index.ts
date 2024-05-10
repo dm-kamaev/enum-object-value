@@ -1,5 +1,5 @@
-export type EnumValues<Input extends Record<any, any>> = Input[keyof Input];
-export type EnumNames<Input extends Record<any, any>> = keyof Input;
+type _EnumValues<Input extends Record<any, any>> = Input[keyof Input];
+type _EnumNames<Input extends Record<any, any>> = keyof Input;
 
 type СreateHashNames<Input extends Record<any, any>> = { [key in keyof Input]: key };
 
@@ -33,39 +33,40 @@ type DeepMutable<T> = T extends (...args: any[]) => any
       ? DeepMutableObject<T>
       : T;
 
-export type UpCast<T> = { [K in keyof T]: T[K] extends string ? string : T[K] };
+type UpCast<T> = { [K in keyof T]: T[K] extends string ? string : T[K] };
 
 export default class EnumObject<InputObj extends Record<any, any> = Record<any, any>> {
   public readonly name: СreateHashNames<InputObj> = {} as СreateHashNames<InputObj>;
 
   constructor(
     public readonly prop: InputObj,
-    private readonly options?: { order?: Array<EnumNames<InputObj>> },
+    private readonly options?: { order?: Array<_EnumNames<InputObj>> },
   ) {
-    (Object.keys(prop) as Array<EnumNames<InputObj>>).forEach((name) => {
+    (Object.keys(prop) as Array<_EnumNames<InputObj>>).forEach((name) => {
       this.name[name] = name;
     });
   }
 
-  createAsIs<Name extends EnumNames<InputObj> & (string | boolean | number)>(name: Name, value: InputObj[Name]) {
-    return new EnumObject({ [name]: value }).get(name);
+  createAsIs<const Name extends _EnumNames<InputObj> & (string | boolean | number)>(name: Name, value: InputObj[Name]) {
+    const result = new EnumObject({ [name]: value }).get(name);
+    return result;
   }
 
-  createByTemplate<Name extends EnumNames<InputObj> & (string | boolean | number)>(
-    name: Name,
-    value: DeepMutable<InputObj[Name]>,
-  ) {
-    return new EnumObject({ [name]: value }).get(name);
-  }
+  // createByTemplate<Name extends _EnumNames<InputObj> & (string | boolean | number)>(
+  //   name: Name,
+  //   value: DeepMutable<InputObj[Name]>,
+  // ) {
+  //   return new EnumObject({ [name]: value }).get(name);
+  // }
 
-  createByGeneralizedTemplate<Name extends EnumNames<InputObj> & (string | boolean | number)>(
+  createByGeneralizedTemplate<Name extends _EnumNames<InputObj> & (string | boolean | number)>(
     name: Name,
     value: UpCast<DeepMutable<InputObj>[Name]>,
   ) {
     return new EnumObject({ [name]: value }).get(name);
   }
 
-  forEach(handler: (name: EnumNames<InputObj>, value: EnumValues<InputObj>) => void) {
+  forEach(handler: (name: _EnumNames<InputObj>, value: _EnumValues<InputObj>) => void) {
     const keys = this.options?.order || this.getNames();
     keys.forEach((name) => {
       const value = this.prop[name];
@@ -73,7 +74,7 @@ export default class EnumObject<InputObj extends Record<any, any> = Record<any, 
     });
   }
 
-  get<Name extends EnumNames<InputObj> & (string | boolean | number)>(name: Name) {
+  get<Name extends _EnumNames<InputObj> & (string | boolean | number)>(name: Name) {
     if (!(name in this.prop)) {
       throw new Error(`Not found key: "${name}"`);
     }
@@ -82,11 +83,11 @@ export default class EnumObject<InputObj extends Record<any, any> = Record<any, 
   }
 
   getNames() {
-    return Object.keys(this.prop) as Array<EnumNames<InputObj>>;
+    return Object.keys(this.prop) as Array<_EnumNames<InputObj>>;
   }
 
   getValues() {
-    return Object.values(this.prop) as Array<EnumValues<InputObj>>;
+    return Object.values(this.prop) as Array<_EnumValues<InputObj>>;
   }
 
   *[Symbol.iterator](): Generator<[keyof InputObj, InputObj[keyof InputObj]], void, unknown> {
@@ -98,3 +99,7 @@ export default class EnumObject<InputObj extends Record<any, any> = Record<any, 
     }
   }
 }
+
+export type EnumValues<Input extends EnumObject> = Input['prop'][keyof Input['prop']];
+export type EnumNames<Input extends EnumObject> = keyof Input['prop'];
+export type GetEnumValueByName<Input extends EnumObject, Name extends keyof Input['prop']> = Input['prop'][Name];
