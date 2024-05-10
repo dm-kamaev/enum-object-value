@@ -1,6 +1,6 @@
 # Enum Object
 
-[![Actions Status](https://github.com/dm-kamaev/enum_object/workflows/Build/badge.svg)](https://github.com/dm-kamaev/enum_object/actions) ![Coverage](https://github.com/dm-kamaev/enum_object/blob/master/coverage/badge-statements.svg)
+[![Actions Status](https://github.com/dm-kamaev/enum-object-value/workflows/Build/badge.svg)](https://github.com/dm-kamaev/enum-object-value/actions) ![Coverage](https://github.com/dm-kamaev/enum-object-value/blob/master/coverage/badge-statements.svg)
 
 The library for create enum which support object as values. You can simulate enum like Swift associated values or Rust enum with her help.
 It has supports TypeScript </>
@@ -9,7 +9,7 @@ It has supports TypeScript </>
 
 ## Install
 ```sh
-npm i enum_object -S
+npm i enum-object-value -S
 ```
 
 ## About
@@ -21,11 +21,11 @@ enum UserRole = {
 }
 ```
 
-Library `enum_object` offers a solution to the problem. It make work with enums by analogy associated values in Swift or Rust enum.
+Library `enum-object-value` offers a solution to the problem. It make work with enums by analogy associated values in Swift or Rust enum.
 
 ### Definition
 ```ts
-import EnumObject from 'enum_object';
+import EnumObject from 'enum-object-value';
 
 const userRoleEnum = new EnumObject({
   ROOT: { value: 'root', permission: ['create:admin', 'create', 'remove', 'read'] },
@@ -100,7 +100,7 @@ userRoleEnum.getValues();
 ### Typings
 You can get type of names and values of enum with utility types: `EnumNames` and `EnumValues`.
 ```ts
-import EnumObject, { EnumNames, EnumValues } from 'enum_object';
+import EnumObject, { EnumNames, EnumValues } from 'enum-object-value';
 
 const data = {
   ROOT: { value: 'root', permission: ['create:admin', 'create', 'remove', 'read'] },
@@ -123,7 +123,7 @@ type UserRoleEnumValues = EnumValues<typeof userRoleEnum>;
 ### More examples
 Examples with functions as values:
 ```ts
-import EnumObject, { EnumNames, EnumValues, GetEnumValueByName } from 'enum_object';
+import EnumObject, { EnumNames, EnumValues, GetEnumValueByName } from 'enum-object-value';
 
 
 const paymentTypeEnum = new EnumObject({

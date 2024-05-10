@@ -1,5 +1,5 @@
 {
-  "name": "enum_object",
+  "name": "enum-object-value",
   "version": "1.0.0",
   "description": "Library for create enum which support object as values. This library simulation  as Swift associated values or Rust enum",
   "main": "index.js",
@@ -25,7 +25,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dm-kamaev/enum_object"
+    "url": "https://github.com/dm-kamaev/enum-object-value"
   },
   "author": "Mitya Kamaev",
   "license": "ISC",
