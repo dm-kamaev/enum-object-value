@@ -1,4 +1,5 @@
 import EnumObject, { EnumNames, EnumValues, GetEnumValueByName } from '.';
+// import EnumObject, { EnumNames, EnumValues, GetEnumValueByName } from 'enum-object-value';
 
 const data = {
   ROOT: { value: 'root', permission: ['create:admin', 'create', 'remove', 'read'] },
